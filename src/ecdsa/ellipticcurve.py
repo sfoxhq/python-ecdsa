@@ -35,6 +35,9 @@
 from __future__ import division
 
 from six import python_2_unicode_compatible
+
+from fastecdsa import curvemath
+
 from . import numbertheory
 
 @python_2_unicode_compatible
@@ -112,42 +115,30 @@ class Point(object):
 
     return Point(self.__curve, x3, y3)
 
-  def __mul__(self, other):
-    """Multiply a point by an integer."""
+   def __mul__(self, scalar):
+     e = scalar
+     if self.__order: e = e % self.__order
+     if e == 0:
+         return INFINITY
+     if self == INFINITY: return INFINITY
 
-    def leftmost_bit(x):
-      assert x > 0
-      result = 1
-      while result <= x:
-        result = 2 * result
-      return result // 2
-
-    e = other
-    if self.__order:
-      e = e % self.__order
-    if e == 0:
-      return INFINITY
-    if self == INFINITY:
-      return INFINITY
-    assert e > 0
-
-    # From X9.62 D.3.2:
-
-    e3 = 3 * e
-    negative_self = Point(self.__curve, self.__x, -self.__y, self.__order)
-    i = leftmost_bit(e3) // 2
-    result = self
-    # print_("Multiplying %s by %d (e3 = %d):" % (self, other, e3))
-    while i > 1:
-      result = result.double()
-      if (e3 & i) != 0 and (e & i) == 0:
-        result = result + self
-      if (e3 & i) == 0 and (e & i) != 0:
-        result = result + negative_self
-      # print_(". . . i = %d, result = %s" % ( i, result ))
-      i = i // 2
-
-    return result
+     try:
+       d = int(scalar) % self.__order
+     except ValueError:
+       raise TypeError('Curve point multiplication must be by an integer')
+     else:
+       x, y = curvemath.mul(
+           str(self.__x),
+           str(self.__y),
+           str(d),
+           str(self.__curve.p()),
+           str(self.__curve.a()),
+           str(self.__curve.b()),
+           str(self.__order),
+           str(0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798),
+           str(0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8)
+       )
+       return Point(self.curve(), int(x), int(y), self.order())
 
   def __rmul__(self, other):
     """Multiply a point by an integer."""

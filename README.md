@@ -24,8 +24,9 @@ it would not be too hard to add more.
 
 ## Dependencies
 
-This library uses only Python and the 'six' package. It is compatible with
-Python 2.6, 2.7, 3.3, 3.4, 3.5, and 3.6.
+This library uses Python and the 'six' package. It is compatible with
+Python 2.6, 2.7, 3.3, 3.4, 3.5, and 3.6. It relies on [fastecdsa][1], which requires
+[GMP][2] to be installed on the system. See fastecdsa's [README][3] for more information.
 
 To run the OpenSSL compatibility tests, the 'openssl' tool must be on your
 $PATH. This release has been tested successfully against both OpenSSL 0.9.8o
@@ -333,3 +334,6 @@ sk1 = make_key_from_seed("1:%s" % seed)
 sk2 = make_key_from_seed("2:%s" % seed)
 sk3 = make_key_from_seed("3:%s" % seed)
 ```
+[1]: https://github.com/AntonKueltz/fastecdsa
+[2]: https://gmplib.org/
+[3]: https://github.com/AntonKueltz/fastecdsa#installing
