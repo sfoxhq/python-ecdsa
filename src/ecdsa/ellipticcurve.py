@@ -115,30 +115,30 @@ class Point(object):
 
     return Point(self.__curve, x3, y3)
 
-   def __mul__(self, scalar):
-     e = scalar
-     if self.__order: e = e % self.__order
-     if e == 0:
-         return INFINITY
-     if self == INFINITY: return INFINITY
+  def __mul__(self, scalar):
+    e = scalar
+    if self.__order: e = e % self.__order
+    if e == 0:
+        return INFINITY
+    if self == INFINITY: return INFINITY
 
-     try:
-       d = int(scalar) % self.__order
-     except ValueError:
-       raise TypeError('Curve point multiplication must be by an integer')
-     else:
-       x, y = curvemath.mul(
-           str(self.__x),
-           str(self.__y),
-           str(d),
-           str(self.__curve.p()),
-           str(self.__curve.a()),
-           str(self.__curve.b()),
-           str(self.__order),
-           str(0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798),
-           str(0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8)
-       )
-       return Point(self.curve(), int(x), int(y), self.order())
+    try:
+      d = int(scalar) % self.__order
+    except ValueError:
+      raise TypeError('Curve point multiplication must be by an integer')
+    else:
+      x, y = curvemath.mul(
+          str(self.__x),
+          str(self.__y),
+          str(d),
+          str(self.__curve.p()),
+          str(self.__curve.a()),
+          str(self.__curve.b()),
+          str(self.__order),
+          str(0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798),
+          str(0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8)
+      )
+      return Point(self.curve(), int(x), int(y), self.order())
 
   def __rmul__(self, other):
     """Multiply a point by an integer."""
