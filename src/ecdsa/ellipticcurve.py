@@ -135,6 +135,7 @@ class Point(object):
           str(self.__curve.a()),
           str(self.__curve.b()),
           str(self.__order),
+          # hardcode secp256k1 generator x and y. TODO: refactor
           str(0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798),
           str(0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8)
       )
