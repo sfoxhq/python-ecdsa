@@ -26,5 +26,5 @@ setup(name="ecdsa",
           "Programming Language :: Python :: 3.5",
           "Programming Language :: Python :: 3.6",
       ],
-      install_requires=['six'],
+      install_requires=['six', 'fastecdsa==1.6.4'],
       )
