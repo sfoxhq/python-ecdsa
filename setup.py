@@ -5,7 +5,7 @@ import versioneer
 
 commands = versioneer.get_cmdclass().copy()
 
-setup(name="ecdsa",
+setup(name="sfox-ecdsa",
       version=versioneer.get_version(),
       description="ECDSA cryptographic signature library (pure python)",
       author="Brian Warner",
